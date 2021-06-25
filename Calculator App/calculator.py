@@ -3,7 +3,7 @@ from tkinter import *
 root=Tk()
 root.title("Calculator App") 
 root.geometry("380x550+850+200")
-
+root.resizable(False, False)
 ### Function ###
 def enterNumber(x):
     if(entry_box.get()== "O"):
@@ -23,8 +23,16 @@ def funcClear():
     entry_box.delete(0, END)
     entry_box.insert(0, "O")
 
+result = 0
+result_list = []
 def funcOperator():
-    pass
+    content = entry_box.get()
+    result = eval(content)
+    entry_box.delete(0, END)
+    entry_box.insert(0, str(result))
+    result_list.append(content)
+    result_list.reverse()
+    statusBar.configure(text='History : '+' | '.join(result_list[:5]), font='verdana 10 bold')
 
 def funcDelete():
     length = len(entry_box.get())
@@ -64,7 +72,6 @@ for i in range(4):
     btn_operator[i].place(x=290, y= 70+ i*70)
 
 ### Others Button ###
-
 btn_zero = Button(width=19, font="times 15 bold", text="0", bd=5, command= lambda x = 0: enterNumber(x))
 btn_zero.place(x=25, y=280)
 btn_clear = Button(width=4, font="times 15 bold", text="C", bd=5, command=funcClear)
@@ -75,4 +82,8 @@ btn_equal = Button(width=4, text="=", font='times 15 bold', bd=5, command=funcOp
 btn_equal.place(x=205, y=340)
 btn_delete = Button(width=4, text="DEL", font='times 15 bold', bd=5, command=funcDelete)
 btn_delete.place(x=290, y=340)
+
+### Status Bar ###
+statusBar = Label(root, text="History : ", relief=SUNKEN, height=3, anchor=W, font="Verdana 11 bold")
+statusBar.pack(side=BOTTOM, fill=X)
 root.mainloop()
