@@ -2,7 +2,7 @@ from tkinter import *
 import sqlite3
 
 con =sqlite3.connect('database.db')
-cur =con.cursor() 
+cur =con.cursor()  
 
 class MyPeople(Toplevel):
     def __init__(self):
