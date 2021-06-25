@@ -1,5 +1,6 @@
 from tkinter import *
 import datetime
+import myPeople
 
 date = datetime.datetime.now().date()
 
@@ -24,7 +25,7 @@ class Application(object):
 
         ### Buttons ###
         self.btn1_icon=PhotoImage(file='icons/man.png')
-        self.personBtn=Button(self.bottom, text='  My People', font="arial 12 bold", width=150)
+        self.personBtn=Button(self.bottom, text='  My People', font="arial 12 bold", width=150, command=self.openMyPeople)
         self.personBtn.config(image=self.btn1_icon, compound=LEFT)
         self.personBtn.place(x=250, y=10)
 
@@ -38,11 +39,15 @@ class Application(object):
         self.personBtn.config(image=self.btn3_icon, compound=LEFT)
         self.personBtn.place(x=250, y=130)
 
+    def openMyPeople(self):
+        people=myPeople.MyPeople()
+        
+
 def main():
     root = Tk() 
     app = Application(root)
     root.title("Address Book App")
-    root.geometry("650x350+350+200")
+    root.geometry("650x400+350+200")
     root.resizable(False, False)
     root.mainloop()
 
