@@ -22,12 +22,27 @@ class Application(object):
         self.date_lbl=Label(self.top, text='Today\'s date' + str(date), font='arial 12 bold', bg='White', fg='#ffa500')
         self.date_lbl.place(x=450, y=5)
 
+        ### Buttons ###
+        self.btn1_icon=PhotoImage(file='icons/man.png')
+        self.personBtn=Button(self.bottom, text='  My People', font="arial 12 bold", width=150)
+        self.personBtn.config(image=self.btn1_icon, compound=LEFT)
+        self.personBtn.place(x=250, y=10)
+
+        self.btn2_icon=PhotoImage(file='icons/add.png')
+        self.personBtn=Button(self.bottom, text='  Add People', font="arial 12 bold", width=150)
+        self.personBtn.config(image=self.btn2_icon, compound=LEFT)
+        self.personBtn.place(x=250, y=70)
+
+        self.btn3_icon=PhotoImage(file='icons/info.png')
+        self.personBtn=Button(self.bottom, text='  About Us', font="arial 12 bold", width=150)
+        self.personBtn.config(image=self.btn3_icon, compound=LEFT)
+        self.personBtn.place(x=250, y=130)
 
 def main():
     root = Tk() 
     app = Application(root)
     root.title("Address Book App")
-    root.geometry("650x550+350+200")
+    root.geometry("650x350+350+200")
     root.resizable(False, False)
     root.mainloop()
 
