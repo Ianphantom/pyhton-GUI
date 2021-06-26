@@ -2,6 +2,7 @@ from tkinter import *
 import datetime
 import myPeople
 import addPeople
+import aboutUs
 
 date = datetime.datetime.now().date()
 
@@ -31,14 +32,14 @@ class Application(object):
         self.personBtn.place(x=250, y=10)
 
         self.btn2_icon=PhotoImage(file='icons/add.png')
-        self.personBtn=Button(self.bottom, text='  Add People', font="arial 12 bold", width=150, command=self.funcAddPeople)
-        self.personBtn.config(image=self.btn2_icon, compound=LEFT)
-        self.personBtn.place(x=250, y=70)
+        self.addPersonBtn=Button(self.bottom, text='  Add People', font="arial 12 bold", width=150, command=self.funcAddPeople)
+        self.addPersonBtn.config(image=self.btn2_icon, compound=LEFT)
+        self.addPersonBtn.place(x=250, y=70)
 
         self.btn3_icon=PhotoImage(file='icons/info.png')
-        self.personBtn=Button(self.bottom, text='  About Us', font="arial 12 bold", width=150)
-        self.personBtn.config(image=self.btn3_icon, compound=LEFT)
-        self.personBtn.place(x=250, y=130)
+        self.aboutBtn=Button(self.bottom, text='  About Us', font="arial 12 bold", width=150, command=aboutUs.main)
+        self.aboutBtn.config(image=self.btn3_icon, compound=LEFT)
+        self.aboutBtn.place(x=250, y=130)
 
     def openMyPeople(self):
         people=myPeople.MyPeople()
