@@ -34,6 +34,11 @@ class MyPeople(Toplevel):
         self.sb.config(command=self.listBox.yview)
         self.listBox.config(yscrollcommand=self.sb.set)
         self.sb.grid(row=0, column=1, sticky=N+S)
+        count=0
+        persons=cur.execute("SELECT * FROM persons").fetchall()
+        for person in persons:
+            self.listBox.insert(count, str(person[0])+"-"+str(person[1]))
+            count+=1
 
         ### Buttons ###
         btnadd = Button(self.bottomFrame, text="Add", width=12, font='Sans 12 bold', command=self.funcAddPeople)
@@ -50,3 +55,4 @@ class MyPeople(Toplevel):
 
     def funcAddPeople(self):
         addPage=addPeople.AddPeople()
+        self.destroy()
