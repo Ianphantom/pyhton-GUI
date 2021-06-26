@@ -76,15 +76,3 @@ class AddPeople(Toplevel):
                 messagebox.showinfo("Error", "Cant added to database")
         else:
             messagebox.showerror("Error","Field cant be empty!", icon='warning')
-
-
-# def main():
-#     root = Tk() 
-#     app = AddPeople()
-#     root.title("Address Book App")
-#     root.geometry("650x400+350+200")
-#     root.resizable(False, False)
-#     root.mainloop()
-
-# if __name__ == '__main__':
-#     main()
