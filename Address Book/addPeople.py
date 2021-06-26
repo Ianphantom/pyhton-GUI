@@ -1,8 +1,9 @@
 from tkinter import *
 import sqlite3
+from tkinter import messagebox
 
 con=sqlite3.connect('database.db')
-curson=con.cursor()
+cur=con.cursor()
 
 class AddPeople(Toplevel):
     def __init__(self):
@@ -14,7 +15,7 @@ class AddPeople(Toplevel):
         ### Frames ###
         self.top=Frame(self, height=150, bg='white')
         self.top.pack(fill=X)
-        self.bottomFrame=Frame(self, height=500, bg='#fcc324')
+        self.bottomFrame=Frame(self, height=600, bg='#fcc324')
         self.bottomFrame.pack(fill=X)
 
         ### Heading ###
@@ -55,7 +56,35 @@ class AddPeople(Toplevel):
         self.address= Text(self.bottomFrame, width=23, height=15, wrap=WORD)
         self.address.place(x=150, y=200)
         ### Button
-        button=Button(self.bottomFrame, text="Add Person")
+        button=Button(self.bottomFrame, text="Add Person", command=self.addPerson)
         button.place(x=270, y=460)
 
+    def addPerson(self):
+        name=self.ent_name.get()
+        surname=self.ent_surname.get()
+        email=self.ent_email.get()
+        phone=self.ent_phone.get()
+        address=self.address.get(1.0, 'end-1c')
 
+        if(name and surname and email and phone and address != ""):
+            try:
+                query="INSERT INTO 'persons' (person_name, person_surname, person_email, person_phone, person_address) VALUES (?,?,?,?,?)"
+                cur.execute(query, (name, surname, email, phone, address))
+                con.commit()
+                messagebox.showinfo("Success", "Successfully added tto database!", icon='info')
+            except:
+                messagebox.showinfo("Error", "Cant added to database")
+        else:
+            messagebox.showerror("Error","Field cant be empty!", icon='warning')
+
+
+# def main():
+#     root = Tk() 
+#     app = AddPeople()
+#     root.title("Address Book App")
+#     root.geometry("650x400+350+200")
+#     root.resizable(False, False)
+#     root.mainloop()
+
+# if __name__ == '__main__':
+#     main()
