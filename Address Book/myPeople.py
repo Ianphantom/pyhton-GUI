@@ -1,5 +1,6 @@
 from tkinter import *
 import sqlite3
+import addPeople
 
 con =sqlite3.connect('database.db')
 cur =con.cursor()  
@@ -18,10 +19,10 @@ class MyPeople(Toplevel):
         self.bottomFrame.pack(fill=X)
 
         ### Heading ###
-        self.top_image = PhotoImage(file='icons/book.png')
+        self.top_image = PhotoImage(file='icons/person_icon.png')
         self.top_image_lbl = Label(self.top, image=self.top_image, bg='white')
         self.top_image_lbl.place(x=120, y=10)
-        self.heading = Label(self.top, text="My Address Book APP", font="arial 15 bold", fg='#003f8a', bg='white')
+        self.heading = Label(self.top, text="My People", font="arial 15 bold", fg='#003f8a', bg='white')
         self.heading.place(x=260, y=60)
 
         ### ScrollBar###
@@ -35,7 +36,7 @@ class MyPeople(Toplevel):
         self.sb.grid(row=0, column=1, sticky=N+S)
 
         ### Buttons ###
-        btnadd = Button(self.bottomFrame, text="Add", width=12, font='Sans 12 bold')
+        btnadd = Button(self.bottomFrame, text="Add", width=12, font='Sans 12 bold', command=self.funcAddPeople)
         btnadd.grid(row=0, column=2, sticky=N, padx=10, pady=10)
 
         btnUpdate = Button(self.bottomFrame, text="Update", width=12, font='Sans 12 bold')
@@ -46,3 +47,6 @@ class MyPeople(Toplevel):
 
         btnDelete = Button(self.bottomFrame, text="Delete", width=12, font='Sans 12 bold')
         btnDelete.grid(row=0, column=2, sticky=N, padx=10, pady=130)
+
+    def funcAddPeople(self):
+        addPage=addPeople.AddPeople()
