@@ -139,9 +139,18 @@ class Main(object):
                 else:
                     self.list_details.insert(4, "Status : Available")
 
+
+            def doubleClick(evt):
+                global givenId
+                value = str(self.list_books.get(self.list_books.curselection()))
+                # print(value)
+                givenId = value.split("-")[0]
+                give_book = GiveBook( )
+
             self.list_books.bind('<<ListboxSelect>>', bookInfo)
             self.tabs.bind('<<NotebookTabChanged>>', displayStatistic)
             # self.tabs.bind('<ButtonRelease-1>', displayBook)
+            self.list_books.bind('<Double-Button-1>', doubleClick)
 
         def displayStatistic(evt):
             count_books = cur.execute("SELECT count(book_id) FROM books").fetchall()
@@ -197,6 +206,64 @@ class Main(object):
             for book in books_borrowed:
                 self.list_books.insert(count, str(book[0]) +"-"+ str(book[1]))
                 count+=1
+
+class GiveBook(Toplevel):
+    def __init__(self):
+        Toplevel.__init__(self)
+        self.geometry("650x750+550+200")
+        self.title("Lend Book")
+        self.resizable(False, False)
+        global givenId
+        self.book_id = int(givenId)
+
+        query="SELECT * FROM books"
+        books = cur.execute(query).fetchall()
+        book_list=[]
+        for book in books:
+            book_list.append(str(book[0]) +"-"+str(book[1]))
+
+        query2 = "SELECT * FROM members"
+        members = cur.execute(query2).fetchall()
+        member_list = []
+        for member in members:
+            member_list.append(str(member[0])+"-"+member[1])
+
+        ### Top Frames ###
+        self.topFrame = Frame(self, height=150, bg='white')
+        self.topFrame.pack(fill=X)
+
+        ### Botton Frames ###
+        self.bottomFrame = Frame(self, height=600, bg='#fcc324')
+        self.bottomFrame.pack(fill=X)
+
+        ### Heading ###
+        self.top_iamge = PhotoImage(file='icons/addperson.png')
+        top_image_lbl = Label(self.topFrame, image=self.top_iamge, bg='white')
+        top_image_lbl.place(x=120, y=10)
+        heading = Label(self.topFrame, text=' Add Person ', font='arial 22 bold', fg='#003f8a', bg='white')
+        heading.place(x=290, y=60)
+
+        ### Name ###
+        self.book_name = StringVar()
+        self.lbl_name = Label(self.bottomFrame, text='Book:', font='arial 12 bold', fg='white', bg='#fcc324')
+        self.lbl_name.place(x=40, y=40)
+        self.combo_name = ttk.Combobox(self.bottomFrame, textvariable=self.book_name)
+        self.combo_name['values']=book_list
+        self.combo_name.current(self.book_id-1)
+        self.combo_name.place(x=150, y=40)
+
+        ### Phone ###
+        self.member_name = StringVar()
+        self.lbl_phone = Label(self.bottomFrame, text='Member:', font='arial 12 bold', fg='white', bg='#fcc324')
+        self.lbl_phone.place(x=40, y=80)
+        self.combo_member = ttk.Combobox(self.bottomFrame, textvariable=self.member_name)
+        self.combo_member['values']=member_list
+        self.combo_member.place(x=150, y=80)
+
+
+        ### button ###
+        button = Button(self.bottomFrame, text='Lend Book')
+        button.place(x=270, y=120)
 
 
 def main():
