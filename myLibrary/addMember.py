@@ -44,7 +44,7 @@ class AddMember(Toplevel):
         self.ent_phone.place(x=150, y=80)
 
         ### button ###
-        button = Button(self.bottomFrame, text='Add Book', command=self.addMember)
+        button = Button(self.bottomFrame, text='Add Member', command=self.addMember)
         button.place(x=270, y=120)
 
     def addMember(self):
