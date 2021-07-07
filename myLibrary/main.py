@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from typing import List
 
 class Main(object):
     def __init__(self, master):
@@ -52,6 +53,15 @@ class Main(object):
         btn_list = Button(listBar, text="List Books", bg='#2488ff', fg='white', font="arial 12 bold")
         btn_list.grid(row=1, column=3, padx=40, pady=10)
 
+        ### image info ###
+        imageBar = Frame(centerRightFrame, width=440, height=350)
+        imageBar.pack(fill=BOTH)
+        self.title_right = Label(imageBar, text="Welcome to out library", font='arial 16 bold')
+        self.title_right.grid(row=0)
+        self.img_library = PhotoImage(file='icons/library.png')
+        self.lblImage = Label(imageBar, image=self.img_library)
+        self.lblImage.grid(row=1)
+
         ### Add Book ###
         self.iconbook = PhotoImage(file='icons/add_book.png')
         self.btnbook = Button(topFrame, text="Add Book", image=self.iconbook, compound=LEFT, font='arial 12 bold') 
@@ -67,6 +77,36 @@ class Main(object):
         self.iconGive = PhotoImage(file='icons/givebook.png')
         self.btngive=Button(topFrame, text='Add Member', font='arial 12 bold', padx=10, image=self.iconGive, compound=LEFT)
         self.btngive.pack(side=LEFT)
+
+        ### Tabs ###
+        self.tabs = ttk.Notebook(centerLeftFrame, width=900, height=660)
+        self.tabs.pack()
+        self.tab1_icon=PhotoImage(file='icons/books.png')
+        self.tab2_icon=PhotoImage(file='icons/members.png')
+        self.tab1 = ttk.Frame(self.tabs)
+        self.tab2 = ttk.Frame(self.tabs)
+        self.tabs.add(self.tab1, text="Library Management", image=self.tab1_icon, compound=LEFT)
+        self.tabs.add(self.tab2, text="Statistic", image=self.tab2_icon, compound=LEFT)
+
+        ### list books ###
+        self.list_books= Listbox(self.tab1,width=40,height=30,bd=5,font='times 12 bold')
+        self.sb=Scrollbar(self.tab1,orient=VERTICAL)
+        self.list_books.grid(row=0,column=0,padx=(10,0),pady=10,sticky=N)
+        self.sb.config(command=self.list_books.yview)
+        self.list_books.config(yscrollcommand=self.sb.set)
+        self.sb.grid(row=0,column=0,sticky=N+S+E)
+
+        ### list Details ###
+        self.list_details = Listbox(self.tab1, width=80, height=30, bd=5, font='times 12 bold')
+        self.list_details.grid(row=0, column=1, padx=(10,0), pady=10, sticky=N)
+
+        ### Statistic ###
+        self.lbl_book_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
+        self.lbl_book_count.grid(row=0)
+        self.lbl_member_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
+        self.lbl_member_count.grid(row=1, sticky=W)
+        self.lbl_taken_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
+        self.lbl_taken_count.grid(row=2, sticky=W)
 
 
 
