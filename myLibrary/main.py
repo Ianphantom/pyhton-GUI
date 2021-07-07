@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import sqlite3
 import addBook
+import addMember
 
 con = sqlite3.connect('library.db')
 cur = con.cursor()
@@ -11,7 +12,6 @@ class Main(object):
         self.master = master
 
         ### frames ###
-
         mainFrame = Frame(self.master)
         mainFrame.pack()
 
@@ -73,13 +73,13 @@ class Main(object):
 
         ### Add Member Button ###
         self.iconmember = PhotoImage(file='icons/users.png')
-        self.btnmember=Button(topFrame, text="Add Member", font='arial 12 bold', padx=10)
+        self.btnmember=Button(topFrame, text="Add Member", font='arial 12 bold', padx=10, command=self.addTheMember)
         self.btnmember.configure(image=self.iconmember, compound=LEFT)
         self.btnmember.pack(side=LEFT)
 
         ### Give Book ###
         self.iconGive = PhotoImage(file='icons/givebook.png')
-        self.btngive=Button(topFrame, text='Add Member', font='arial 12 bold', padx=10, image=self.iconGive, compound=LEFT)
+        self.btngive=Button(topFrame, text='Give Book', font='arial 12 bold', padx=10, image=self.iconGive, compound=LEFT)
         self.btngive.pack(side=LEFT)
 
         ### Tabs ###
@@ -111,9 +111,41 @@ class Main(object):
         self.lbl_member_count.grid(row=1, sticky=W)
         self.lbl_taken_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
         self.lbl_taken_count.grid(row=2, sticky=W)
+        
+        def displayBook(self):
+            books = cur.execute("SELECT * FROM books").fetchall()
+            count=0
+            for book in books:
+                self.list_books.insert(count, str(book[0])+ "-" +str(book[1]))
+                count += 1
+            
+            def bookInfo(evt):
+                self.list_details.delete(0, END)
+                value = str(self.list_books.get(self.list_books.curselection()))
+                # print(value)
+                id=value.split('-')[0]
+                # print(id)
+                book =cur.execute('SELECT * FROM books WHERE book_id=?', (id,))
+                book_info= book.fetchall()
+                # print(book_info)
+                self.list_details.insert(0,"Book Name : "+ str(book_info[0][1]))
+                self.list_details.insert(1,"Author : "+ str(book_info[0][2]))
+                self.list_details.insert(2,"Page : "+ str(book_info[0][3]))
+                self.list_details.insert(3,"Language : "+ str(book_info[0][4]))
+                if book_info[0][5] != 0 :
+                    self.list_details.insert(4, "Status : Already Borrowed")
+                else:
+                    self.list_details.insert(4, "Status : Available")
+
+            self.list_books.bind('<<ListboxSelect>>', bookInfo)
+
+        displayBook(self)
 
     def addTheBook(self):
         add = addBook.AddBook()
+
+    def addTheMember(self):
+        member = addMember.AddMember()
 
 
 
