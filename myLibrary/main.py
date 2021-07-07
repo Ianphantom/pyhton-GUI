@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
-from typing import List
+import sqlite3
+
+con = sqlite3.connect('library.db')
+cur = con.cursor()
 
 class Main(object):
     def __init__(self, master):
