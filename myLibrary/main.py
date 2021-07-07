@@ -54,7 +54,7 @@ class Main(object):
         rb1.grid(row=1, column=0)
         rb2.grid(row=1, column=1)
         rb3.grid(row=1, column=2)
-        btn_list = Button(listBar, text="List Books", bg='#2488ff', fg='white', font="arial 12 bold")
+        btn_list = Button(listBar, text="List Books", bg='#2488ff', fg='white', font="arial 12 bold", command=self.listBooks)
         btn_list.grid(row=1, column=3, padx=40, pady=10)
 
         ### image info ###
@@ -157,6 +157,29 @@ class Main(object):
             self.list_books.insert(count, str(book[0])+ "-" + str(book[1]))
             count += 1
 
+    def listBooks(self):
+        value = self.listChoice.get()
+        self.list_books.delete(0, END)
+        if value == 1:
+            allbooks = cur.execute("SELECT * FROM books").fetchall()
+            self.list_books.delete(0, END)
+
+            count = 0
+            for book in allbooks:
+                self.list_books.insert(count, str(book[0]) +"-"+ str(book[1]))
+                count+=1
+        elif value ==2 :
+            books_in_library = cur.execute("SELECT * FROM books WHERE book_status=?", (0,)).fetchall()
+            count = 0
+            for book in books_in_library:
+                self.list_books.insert(count, str(book[0]) +"-"+ str(book[1]))
+                count+=1
+        else :
+            books_borrowed = cur.execute("SELECT * FROM books WHERE book_status=?", (1,)).fetchall()
+            count = 0
+            for book in books_borrowed:
+                self.list_books.insert(count, str(book[0]) +"-"+ str(book[1]))
+                count+=1
 
 
 def main():
