@@ -106,7 +106,7 @@ class Main(object):
 
         ### Statistic ###
         self.lbl_book_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
-        self.lbl_book_count.grid(row=0)
+        self.lbl_book_count.grid(row=0, sticky=W)
         self.lbl_member_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
         self.lbl_member_count.grid(row=1, sticky=W)
         self.lbl_taken_count = Label(self.tab2, text="", pady=20, font='verdana 14 bold')
@@ -138,7 +138,19 @@ class Main(object):
                     self.list_details.insert(4, "Status : Available")
 
             self.list_books.bind('<<ListboxSelect>>', bookInfo)
+            self.tabs.bind('<<NotebookTabChanged>>', displayStatistic)
 
+        def displayStatistic(evt):
+            count_books = cur.execute("SELECT count(book_id) FROM books").fetchall()
+            count_members = cur.execute("SELECT count(member_id) FROM members").fetchall()
+            taken_books = cur.execute("SELECT count(book_id) FROM books WHERE book_status=1").fetchall()
+
+            self.lbl_book_count.config(text='Total Books :' + str(count_books[0][0]))
+            self.lbl_member_count.config(text='Total Members :' + str(count_members[0][0]))
+            self.lbl_taken_count.config(text='Total Taken :' + str(taken_books[0][0]))
+
+        
+        displayStatistic(self)
         displayBook(self)
 
     def addTheBook(self):
