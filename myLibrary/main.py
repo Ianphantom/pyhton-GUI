@@ -30,9 +30,27 @@ class Main(object):
         searchBar = LabelFrame(centerRightFrame, width=440, height=75, text='SearchBar', bg="#9bc9ff")
         searchBar.pack(fill=BOTH)
 
+        self.lblSearch = Label(searchBar, text="Search :", font='arial 12 bold', bg='#9bc9ff', fg='white')
+        self.lblSearch.grid(row=0, column=0, padx=20, pady=10)
+        self.ent_search =Entry(searchBar, width=30, bd=3)
+        self.ent_search.grid(row=0, column=1,columnspan=3, padx=10, pady=10)
+        self.btnSearch = Button(searchBar, text="Search", font="arial 12 bold", bg="#fcc324", fg='white')
+        self.btnSearch.grid(row=0, column=4, padx=20, pady=10)
+
         ### List Bar ###
         listBar = LabelFrame(centerRightFrame, width=440, height=175, text='List Box', bg='#fcc324')
         listBar.pack(fill=BOTH)
+        lbl_list = Label(listBar, text="Sort By", font='times 16 bold', fg='#2488ff', bg='#fcc324')
+        lbl_list.grid(row=0, column=2)
+        self.listChoice=IntVar()
+        rb1=Radiobutton(listBar, text='All Books', var=self.listChoice, value=1, bg='#fcc324')
+        rb2=Radiobutton(listBar, text='In Library', var=self.listChoice, value=2, bg='#fcc324')
+        rb3=Radiobutton(listBar, text='Borrowed Books', var=self.listChoice, value=3, bg='#fcc324')
+        rb1.grid(row=1, column=0)
+        rb2.grid(row=1, column=1)
+        rb3.grid(row=1, column=2)
+        btn_list = Button(listBar, text="List Books", bg='#2488ff', fg='white', font="arial 12 bold")
+        btn_list.grid(row=1, column=3, padx=40, pady=10)
 
         ### Add Book ###
         self.iconbook = PhotoImage(file='icons/add_book.png')
