@@ -39,7 +39,7 @@ class Main(object):
         self.lblSearch.grid(row=0, column=0, padx=20, pady=10)
         self.ent_search =Entry(searchBar, width=30, bd=3)
         self.ent_search.grid(row=0, column=1,columnspan=3, padx=10, pady=10)
-        self.btnSearch = Button(searchBar, text="Search", font="arial 12 bold", bg="#fcc324", fg='white')
+        self.btnSearch = Button(searchBar, text="Search", font="arial 12 bold", bg="#fcc324", fg='white', command=self.searchBooks)
         self.btnSearch.grid(row=0, column=4, padx=20, pady=10)
 
         ### List Bar ###
@@ -146,6 +146,16 @@ class Main(object):
 
     def addTheMember(self):
         member = addMember.AddMember()
+
+    def searchBooks(self):
+        value = self.ent_search.get()
+        search = cur.execute("SELECT * FROM books WHERE book_name LIKE ?", ('%'+value+'%',)).fetchall()
+        print(search)
+        self.list_books.delete(0, END)
+        count = 0
+        for book in search:
+            self.list_books.insert(count, str(book[0])+ "-" + str(book[1]))
+            count += 1
 
 
 
