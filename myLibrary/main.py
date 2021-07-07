@@ -39,6 +39,17 @@ class Main(object):
         self.btnbook = Button(topFrame, text="Add Book", image=self.iconbook, compound=LEFT, font='arial 12 bold') 
         self.btnbook.pack(side=LEFT, padx=10)
 
+        ### Add Member Button ###
+        self.iconmember = PhotoImage(file='icons/users.png')
+        self.btnmember=Button(topFrame, text="Add Member", font='arial 12 bold', padx=10)
+        self.btnmember.configure(image=self.iconmember, compound=LEFT)
+        self.btnmember.pack(side=LEFT)
+
+        ### Give Book ###
+        self.iconGive = PhotoImage(file='icons/givebook.png')
+        self.btngive=Button(topFrame, text='Add Member', font='arial 12 bold', padx=10, image=self.iconGive, compound=LEFT)
+        self.btngive.pack(side=LEFT)
+
 
 
 def main():
