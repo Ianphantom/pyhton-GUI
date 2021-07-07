@@ -115,6 +115,8 @@ class Main(object):
         def displayBook(self):
             books = cur.execute("SELECT * FROM books").fetchall()
             count=0
+
+            self.list_books.delete(0, END)
             for book in books:
                 self.list_books.insert(count, str(book[0])+ "-" +str(book[1]))
                 count += 1
@@ -139,6 +141,7 @@ class Main(object):
 
             self.list_books.bind('<<ListboxSelect>>', bookInfo)
             self.tabs.bind('<<NotebookTabChanged>>', displayStatistic)
+            # self.tabs.bind('<ButtonRelease-1>', displayBook)
 
         def displayStatistic(evt):
             count_books = cur.execute("SELECT count(book_id) FROM books").fetchall()
@@ -148,6 +151,8 @@ class Main(object):
             self.lbl_book_count.config(text='Total Books :' + str(count_books[0][0]))
             self.lbl_member_count.config(text='Total Members :' + str(count_members[0][0]))
             self.lbl_taken_count.config(text='Total Taken :' + str(taken_books[0][0]))
+
+            displayBook(self)
 
         
         displayStatistic(self)
